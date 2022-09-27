@@ -1,0 +1,49 @@
+{
+  "Version": 1,
+  "Hash": "RHPddZH5oMeb0O0XvRo2tiaqu1qDPNlA4jrnGPw8uPg=",
+  "Source": "SmartBot.Tests",
+  "BasePath": "_content/SmartBot.Tests",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [
+    {
+      "Identity": "C:\\Kiran\\SmartBot\\SmartBot\\SmartBot.csproj",
+      "Version": 2,
+      "Source": "SmartBot",
+      "GetPublishAssetsTargets": "ComputeReferencedStaticWebAssetsPublishManifest;GetCurrentProjectPublishStaticWebAssetItems",
+      "AdditionalPublishProperties": "Configuration=Debug;Platform=AnyCPU",
+      "AdditionalPublishPropertiesToRemove": "WebPublishProfileFile;TargetFramework;RuntimeIdentifier",
+      "GetBuildAssetsTargets": "GetCurrentProjectBuildStaticWebAssetItems",
+      "AdditionalBuildProperties": "Configuration=Debug;Platform=AnyCPU",
+      "AdditionalBuildPropertiesToRemove": "WebPublishProfileFile;TargetFramework;RuntimeIdentifier"
+    }
+  ],
+  "DiscoveryPatterns": [
+    {
+      "Name": "SmartBot\\wwwroot",
+      "Source": "SmartBot",
+      "ContentRoot": "C:\\Kiran\\SmartBot\\SmartBot\\wwwroot\\",
+      "BasePath": "_content/SmartBot",
+      "Pattern": "**"
+    }
+  ],
+  "Assets": [
+    {
+      "Identity": "C:\\Kiran\\SmartBot\\SmartBot\\wwwroot\\default.htm",
+      "SourceId": "SmartBot",
+      "SourceType": "Project",
+      "ContentRoot": "C:\\Kiran\\SmartBot\\SmartBot\\wwwroot\\",
+      "BasePath": "_content/SmartBot",
+      "RelativePath": "default.htm",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\default.htm"
+    }
+  ]
+}

@@ -1,0 +1,46 @@
+{
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "type": "AdaptiveCard",
+  "version": "1.0",
+  "body": [
+    {
+      "type": "Image",
+      "url": "https://medias2.prestastore.com/835054-pbig/chat-bot-for-social-networking.jpg",
+      "size": "stretch"
+    },
+    {
+      "type": "TextBlock",
+      "spacing": "medium",
+      "size": "default",
+      "weight": "bolder",
+      "text": "Welcome to SmartBot!",
+      "wrap": true,
+      "maxLines": 0
+    },
+    {
+      "type": "TextBlock",
+      "size": "default",
+      "isSubtle": true,
+      "text": "Now that you have successfully run your SmartBot, follow the links to expand your knowledge on Azure Technology and Certification.",
+      "wrap": true,
+      "maxLines": 0
+    }
+  ],
+  "actions": [
+    {
+      "type": "Action.OpenUrl",
+      "title": "Azure overview",
+      "url": "https://azure.microsoft.com"
+    },
+    {
+      "type": "Action.OpenUrl",
+      "title": "Azure Certification List",
+      "url": "https://blog.udemy.com/how-to-get-azure-certified"
+    },
+    {
+      "type": "Action.OpenUrl",
+      "title": "Learn how to get Certification",
+      "url": "https://learn.microsoft.com/en-us/certifications"
+    }
+  ]
+}
