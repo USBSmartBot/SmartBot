@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "h/sgFRUYK0+OlJqLRPCZ1rkui/9T5UvYogIgq+2ToGYh/RiuTC5QfMhiGlyx0M3ucoix/Rc0pgroHCmIQXFLwA==",
+  "dgSpecHash": "qFNtXzf01imiU0yaenCtJ4zWsBmNtHHBCkejWmnEW+8hc8pjSHhlj+Hv0Zw8wMjTLrkkWoifT5A1/Rk1V7yy9w==",
   "success": true,
-  "projectFilePath": "C:\\Kiran\\SmartBot1\\SmartBot\\SmartBot.csproj",
+  "projectFilePath": "C:\\Kiran\\SmartBot\\SmartBot\\SmartBot.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\kiran\\.nuget\\packages\\adaptiveexpressions\\4.16.0\\adaptiveexpressions.4.16.0.nupkg.sha512",
     "C:\\Users\\kiran\\.nuget\\packages\\antlr4.runtime.standard\\4.8.0\\antlr4.runtime.standard.4.8.0.nupkg.sha512",
@@ -164,7 +164,11 @@
     "C:\\Users\\kiran\\.nuget\\packages\\system.xml.readerwriter\\4.3.0\\system.xml.readerwriter.4.3.0.nupkg.sha512",
     "C:\\Users\\kiran\\.nuget\\packages\\system.xml.xdocument\\4.3.0\\system.xml.xdocument.4.3.0.nupkg.sha512",
     "C:\\Users\\kiran\\.nuget\\packages\\system.xml.xmldocument\\4.3.0\\system.xml.xmldocument.4.3.0.nupkg.sha512",
-    "C:\\Users\\kiran\\.nuget\\packages\\system.xml.xmlserializer\\4.3.0\\system.xml.xmlserializer.4.3.0.nupkg.sha512"
+    "C:\\Users\\kiran\\.nuget\\packages\\system.xml.xmlserializer\\4.3.0\\system.xml.xmlserializer.4.3.0.nupkg.sha512",
+    "C:\\Users\\kiran\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\5.0.17\\microsoft.netcore.app.host.win-x64.5.0.17.nupkg.sha512",
+    "C:\\Users\\kiran\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\5.0.0\\microsoft.aspnetcore.app.ref.5.0.0.nupkg.sha512",
+    "C:\\Users\\kiran\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\5.0.0\\microsoft.windowsdesktop.app.ref.5.0.0.nupkg.sha512",
+    "C:\\Users\\kiran\\.nuget\\packages\\microsoft.netcore.app.ref\\5.0.0\\microsoft.netcore.app.ref.5.0.0.nupkg.sha512"
   ],
   "logs": []
 }

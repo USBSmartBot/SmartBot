@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "OWAiqAucJMFVZqfOGKJ/BNRIyaG5wZBsE8X5zP1JkFlZQ24xQQntNxXEQKJhh5PqF+sonJ9hZ/YS2PBFv5y8cQ==",
+  "dgSpecHash": "s6xYcvhdvyg6lBSWrY+qHM/dCjvohLI7o8NDI7VI68JSTFSEL8H9ZIwishFoB7eBg030a/D4Vri54kYbJnzI6Q==",
   "success": true,
-  "projectFilePath": "C:\\Kiran\\SmartBot1\\SmartBot.Tests\\SmartBot.Tests.csproj",
+  "projectFilePath": "C:\\Kiran\\SmartBot\\SmartBot.Tests\\SmartBot.Tests.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\kiran\\.nuget\\packages\\adaptiveexpressions\\4.16.0\\adaptiveexpressions.4.16.0.nupkg.sha512",
     "C:\\Users\\kiran\\.nuget\\packages\\antlr4.runtime.standard\\4.8.0\\antlr4.runtime.standard.4.8.0.nupkg.sha512",
@@ -188,7 +188,11 @@
     "C:\\Users\\kiran\\.nuget\\packages\\xunit.core\\2.4.1\\xunit.core.2.4.1.nupkg.sha512",
     "C:\\Users\\kiran\\.nuget\\packages\\xunit.extensibility.core\\2.4.1\\xunit.extensibility.core.2.4.1.nupkg.sha512",
     "C:\\Users\\kiran\\.nuget\\packages\\xunit.extensibility.execution\\2.4.1\\xunit.extensibility.execution.2.4.1.nupkg.sha512",
-    "C:\\Users\\kiran\\.nuget\\packages\\xunit.runner.visualstudio\\2.4.1\\xunit.runner.visualstudio.2.4.1.nupkg.sha512"
+    "C:\\Users\\kiran\\.nuget\\packages\\xunit.runner.visualstudio\\2.4.1\\xunit.runner.visualstudio.2.4.1.nupkg.sha512",
+    "C:\\Users\\kiran\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\5.0.17\\microsoft.netcore.app.host.win-x64.5.0.17.nupkg.sha512",
+    "C:\\Users\\kiran\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\5.0.0\\microsoft.aspnetcore.app.ref.5.0.0.nupkg.sha512",
+    "C:\\Users\\kiran\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\5.0.0\\microsoft.windowsdesktop.app.ref.5.0.0.nupkg.sha512",
+    "C:\\Users\\kiran\\.nuget\\packages\\microsoft.netcore.app.ref\\5.0.0\\microsoft.netcore.app.ref.5.0.0.nupkg.sha512"
   ],
   "logs": []
 }

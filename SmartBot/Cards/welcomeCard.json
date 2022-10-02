@@ -21,7 +21,7 @@
       "type": "TextBlock",
       "size": "default",
       "isSubtle": true,
-      "text": "Now that you have successfully run your SmartBot, follow the links to expand your knowledge on Azure Technology and Certification.",
+      "text": "Now that you have successfully run SmartBot, follow the links to expand your knowledge on Azure Technology and Certification.",
       "wrap": true,
       "maxLines": 0
     }
