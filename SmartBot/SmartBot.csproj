@@ -8,9 +8,6 @@
     <Content Remove="Cards\welcomeCard.json" />
   </ItemGroup>
   <ItemGroup>
-    <_WebToolingArtifacts Remove="Properties\PublishProfiles\SmartBotAppService.PublishSettings" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Cards\welcomeCard.json" />
   </ItemGroup>
   <ItemGroup>

@@ -1,5 +1,4 @@
 C:\Kiran\SmartBot\SmartBot\bin\Release\net5.0\appsettings.Development.json
-C:\Kiran\SmartBot\SmartBot\bin\Release\net5.0\SmartBot_Content.zip
 C:\Kiran\SmartBot\SmartBot\bin\Release\net5.0\SmartBot.exe
 C:\Kiran\SmartBot\SmartBot\bin\Release\net5.0\appsettings.json
 C:\Kiran\SmartBot\SmartBot\bin\Release\net5.0\SmartBot.deps.json
@@ -84,3 +83,9 @@ C:\Kiran\SmartBot\SmartBot\obj\Release\net5.0\SmartBot.dll
 C:\Kiran\SmartBot\SmartBot\obj\Release\net5.0\ref\SmartBot.dll
 C:\Kiran\SmartBot\SmartBot\obj\Release\net5.0\SmartBot.pdb
 C:\Kiran\SmartBot\SmartBot\obj\Release\net5.0\SmartBot.genruntimeconfig.cache
+C:\Kiran\SmartBot\SmartBot\bin\Release\net5.0\Beginner_cert.zip
+C:\Kiran\SmartBot\SmartBot\bin\Release\net5.0\Beginner_read.zip
+C:\Kiran\SmartBot\SmartBot\bin\Release\net5.0\Beginner_test.zip
+C:\Kiran\SmartBot\SmartBot\bin\Release\net5.0\Expert_cert.zip
+C:\Kiran\SmartBot\SmartBot\bin\Release\net5.0\Expert_read.zip
+C:\Kiran\SmartBot\SmartBot\bin\Release\net5.0\Expert_test.zip

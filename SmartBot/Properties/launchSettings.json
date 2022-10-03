@@ -17,9 +17,9 @@
       }
     },
     "CoreBot": {
-      "commandName": "Project",
+      "commandName": "smartbotservice",
       "launchBrowser": true,
-      "applicationUrl": "http://localhost:3980/",
+      "applicationUrl": "https://smartbotservice.azurewebsites.net/",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
