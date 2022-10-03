@@ -9,6 +9,7 @@ using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Schema;
 using Microsoft.Extensions.Logging;
 using Microsoft.Recognizers.Text.DataTypes.TimexExpression;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -90,18 +91,35 @@ namespace SmartBot.Dialogs
             switch (azureContent.AzureChoice)
             {
                 case "Read Up":
-                    questionText = "What you want to read for azure " + ExpertLevel + " level?";
+                    questionText = "What you want to read for azure " + ExpertLevel + " level " + getCertDetails(ExpertLevel);
                     break;
                 case "Certification":
-                    questionText = "Which certification you would like to do for azure " + ExpertLevel + " level?";
+                    questionText = "Which certification you would like to do for azure " + ExpertLevel + " level " + getCertDetails(ExpertLevel);
                     break;
                 case "Practice Test":
-                    questionText = "Which azure certification Practivie test would you like to do azure" + ExpertLevel + " level?";
+                    questionText = "Which azure certification practice test would you like to do for azure" + ExpertLevel + " level " + getCertDetails(ExpertLevel);
                     break;
             }
             return questionText;
         }
 
+        private string getCertDetails(string expertLevel)
+        {
+            string certDetails = null;
+            switch (expertLevel)
+            {
+                case "Beginner":
+                    certDetails = "AZ-900 or AZ-104?";
+                    break;
+                case "Intermediate":
+                    certDetails = "AZ-204 or AZ-500?";
+                    break;
+                case "Expert":
+                    certDetails = "AZ-304 or AZ-400?";
+                    break;
+            }
+            return certDetails;
+        }
         private async Task<DialogTurnResult> AzureTopicOptionAsyn(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
 
@@ -250,33 +268,29 @@ namespace SmartBot.Dialogs
             var promptMessage = "Thank you for choosing SmartBot to learn azure!!";
 
             if (confirmOption == "Yes")
+            {
                 return await stepContext.ReplaceDialogAsync(InitialDialogId, promptMessage, cancellationToken);
+            }
             else
-            {                
+            {
                 var message = MessageFactory.Text(promptMessage);
                 var turnContext = stepContext.Context;
                 var activity = turnContext.Activity;
-                /*var reply = activity.CreateReply();
+                var reply = activity.CreateReply();
                 reply.Text = "Thank You for choosing SmartBot to learn azure!!";
+                                
+                var imageJsonString = "{\"$schema\": \"http://adaptivecards.io/schemas/adaptive-card.json\",\"type\": \"AdaptiveCard\",\"version\": \"1.0\", \"body\":[{\"type\": \"Image\",\"width\": \"82px\",\"height\": \"100px\",\"url\": \"https://i.pinimg.com/736x/bf/31/a3/bf31a3f95b984510958a887f7e513020.jpg\",\"size\": \"stretch\"}]}";
 
-                //read from local
-                var att = new Attachment
-                {
-                    Name = @"Resources\architecture-resize.png",
-                    ContentType = "image/png",
-                    ContentUrl = @"C:\Users\kiran\Downloads\azure1.jfif",
-                };
-
-                //an Internet url attachment
                 var urlAttachment = new Attachment
                 {
-                    Name = @"Resources\architecture-resize.png",
-                    ContentType = "image/png",
-                    ContentUrl = "https://i.pinimg.com/736x/bf/31/a3/bf31a3f95b984510958a887f7e513020.jpg"                   
+                    ContentType = "application/vnd.microsoft.card.adaptive",
+                    Content = JsonConvert.DeserializeObject(imageJsonString)
                 };
-                reply.Attachments = new List<Attachment>() { urlAttachment };*/
 
-                await turnContext.SendActivityAsync(promptMessage);
+                reply.Attachments = new List<Attachment>() { urlAttachment };
+
+                await turnContext.SendActivityAsync(reply);
+
                 return await stepContext.EndDialogAsync(promptMessage, cancellationToken);
             }            
         }

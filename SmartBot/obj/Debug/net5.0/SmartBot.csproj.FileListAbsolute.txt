@@ -174,3 +174,4 @@ C:\Kiran\SmartBot\SmartBot\bin\Debug\net5.0\Beginner_test.zip
 C:\Kiran\SmartBot\SmartBot\bin\Debug\net5.0\Expert_cert.zip
 C:\Kiran\SmartBot\SmartBot\bin\Debug\net5.0\Expert_read.zip
 C:\Kiran\SmartBot\SmartBot\bin\Debug\net5.0\Expert_test.zip
+C:\Kiran\SmartBot\SmartBot\obj\Debug\net5.0\SmartBot.csproj.AssemblyReference.cache
