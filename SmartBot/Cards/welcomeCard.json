@@ -6,7 +6,9 @@
     {
       "type": "Image",
       "url": "https://medias2.prestastore.com/835054-pbig/chat-bot-for-social-networking.jpg",
-      "size": "stretch"
+      "height": "250px",
+      "width": "250px",
+      "horizontalAlignment": "center"
     },
     {
       "type": "TextBlock",
@@ -21,9 +23,9 @@
       "type": "TextBlock",
       "size": "default",
       "isSubtle": true,
-      "text": "Now that you have successfully run SmartBot, follow the links to expand your knowledge on Azure Technology and Certification.",
+      "text": "Welcome to SmartBot Azure Service, click below links to expand your knowledge on Azure Technology.",
       "wrap": true,
-      "maxLines": 0
+      "maxLines": 3
     }
   ],
   "actions": [
