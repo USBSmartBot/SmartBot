@@ -1,5 +1,6 @@
 C:\Kiran\SmartBot\SmartBot\obj\Release\net5.0\PubTmp\Out\SmartBot.exe
 C:\Kiran\SmartBot\SmartBot\obj\Release\net5.0\PubTmp\Out\wwwroot\default.htm
+C:\Kiran\SmartBot\SmartBot\obj\Release\net5.0\PubTmp\Out\wwwroot\smartbot.html
 C:\Kiran\SmartBot\SmartBot\obj\Release\net5.0\PubTmp\Out\appsettings.Development.json
 C:\Kiran\SmartBot\SmartBot\obj\Release\net5.0\PubTmp\Out\appsettings.json
 C:\Kiran\SmartBot\SmartBot\obj\Release\net5.0\PubTmp\Out\Beginner_cert.zip
