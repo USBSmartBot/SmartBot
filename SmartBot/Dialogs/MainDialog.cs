@@ -8,14 +8,17 @@ using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Schema;
 using Microsoft.Extensions.Logging;
-using Microsoft.Recognizers.Text.DataTypes.TimexExpression;
 using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Net;
+using System.Net.Http.Headers;
+using System.Net.Http.Json;
+using System;
+using System.Text;
+using Newtonsoft.Json.Serialization;
 
 namespace SmartBot.Dialogs
 {
@@ -127,7 +130,7 @@ namespace SmartBot.Dialogs
             var activity = turnContext.Activity;
             var reply = activity.CreateReply();
             reply.Text = "sample images for azure certification.";
-
+            string langRes = "";
             //read from local
             var att = new Attachment
             {
@@ -156,8 +159,13 @@ namespace SmartBot.Dialogs
                             Col0 = stepContext.Context.Activity.Text
                         };
 
+                        string langUrl = "https://smartbot-qna.cognitiveservices.azure.com/language/:query-knowledgebases?projectName=smartbot-project&api-version=2021-10-01&deploymentName=production";
+
+                        string key = "339ce12228f34b1a840913e430bf8a91";
+
                         var predictRead = Beginner_read.Predict(read_content);
                         predictdetails = predictRead.PredictedLabel;
+                        langRes = getLanguageResource(langUrl, key, stepContext.Context.Activity.Text);
                     }
                     else if(azureContent.AzureChoice == "Practice Test")
                     {
@@ -247,10 +255,12 @@ namespace SmartBot.Dialogs
             }
                         
             var message = MessageFactory.Text(predictdetails);
-
+            var langMessage = MessageFactory.Text(langRes);
+                        
             await turnContext.SendActivityAsync(message);
             await turnContext.SendActivityAsync(reply);
-                        
+            await turnContext.SendActivityAsync(langMessage);
+
             var confirmOption = new PromptOptions
             {
                 Choices = new List<Choice> { new Choice("Yes"), new Choice("No") },
@@ -295,5 +305,87 @@ namespace SmartBot.Dialogs
             }            
         }
 
+        private static string getLanguageResource(string url, string key, string question)
+        {
+            string response = null;
+            try
+            {
+                LanguageRequest languageRequest = new LanguageRequest()
+                {
+                    top = 1,
+                    answerSpanRequest = new answerSpanRequest
+                    {
+                        confidenceScoreThreshold = "0",
+                        enable = true,
+                        topAnswersWithSpan = 1
+                    },
+                    confidenceScoreThreshold = "0",
+                    filters = "",
+                    includeUnstructuredSources = true,
+                    question = question
+                };
+
+                string resultContent = string.Empty;
+
+                var requestHandler = new HttpClientHandler();
+                HttpClient httpClient = new HttpClient(requestHandler);
+                var request = new HttpRequestMessage(HttpMethod.Post, url);
+                request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                request.Headers.Add("Ocp-Apim-Subscription-Key", key);
+
+                var jsonSettings = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore, ContractResolver = new CamelCasePropertyNamesContractResolver() };
+                request.Content = new StringContent(JsonConvert.SerializeObject(languageRequest, jsonSettings), Encoding.UTF8, "application/json");
+
+                Task<String> res = PostMethod(request);
+
+                LanguageReponse languageReponse = JsonConvert.DeserializeObject<LanguageReponse>(res.Result);
+                response = languageReponse.answers[0].answer + " source of the content - " + languageReponse.answers[0].source;
+
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            return response;
+        }
+
+        private static async Task<String> PostMethod(HttpRequestMessage request)
+        {
+            var requestHandler = new HttpClientHandler();
+            HttpClient httpClient = new HttpClient(requestHandler);
+
+            var result = httpClient.Send(request);
+
+            var resultContent = await result.Content.ReadAsStringAsync().ConfigureAwait(true);
+
+            return resultContent;
+        }
+
+        /*private static async Task<TOut> HttpPostCall<TIn, TOut>(string url, string key, HttpMethod httpMethod, TIn contentValue) where TOut : class
+        {
+            string resultContent = string.Empty;
+            try
+            {
+                var requestHandler = new HttpClientHandler();
+                HttpClient httpClient = new HttpClient(requestHandler);
+                var request = new HttpRequestMessage(HttpMethod.Post, url);
+                request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                request.Headers.Add("Ocp-Apim-Subscription-Key", key);
+
+                var jsonSettings = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore, ContractResolver = new CamelCasePropertyNamesContractResolver() };
+                request.Content = new StringContent(JsonConvert.SerializeObject(contentValue, jsonSettings), Encoding.UTF8, "application/json");
+
+                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
+                var result = await httpClient.SendAsync(request)
+                                             .ConfigureAwait(false);
+
+                resultContent = await result.Content.ReadAsStringAsync().ConfigureAwait(false);
+            }
+            catch(Exception e)
+            {
+                throw;
+            }
+            return JsonConvert.DeserializeObject<TOut>(resultContent);
+        }*/
     }
 }
