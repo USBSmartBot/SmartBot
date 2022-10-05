@@ -133,7 +133,7 @@ namespace SmartBot.Dialogs
             var activity = turnContext.Activity;
             var reply = activity.CreateReply();
             reply.Text = "sample images for azure certification.";
-            string langRes = "";
+            //string langRes = "";
             //read from local
             var att = new Attachment
             {
@@ -151,13 +151,13 @@ namespace SmartBot.Dialogs
             };
             reply.Attachments = new List<Attachment>() { urlAttachment };
 
-            string predictdetails = "";
+            LanguageReponse langRes = null;
             switch (azureContent.ExpertLevel)
             {
                 case "Beginner":
                     string langUrl = "https://smartbot-qna.cognitiveservices.azure.com/language/:query-knowledgebases?projectName=smartbot-beginner&api-version=2021-10-01&deploymentName=production";
                     string key = "339ce12228f34b1a840913e430bf8a91";
-                    langRes = getLanguageResource(langUrl, key, stepContext.Context.Activity.Text);
+                  langRes = getLanguageResource(langUrl, key, stepContext.Context.Activity.Text);
 
                     /*if (azureContent.AzureChoice=="Read Up")
                     { 
@@ -259,11 +259,13 @@ namespace SmartBot.Dialogs
             }
 
             //var message = MessageFactory.Text(predictdetails);
-            var langMessage = MessageFactory.Text(langRes);
+            var langMessage = MessageFactory.Text(langRes.answers[0].answer);
+            var langMessage1 = MessageFactory.Text(langRes.answers[0].source);
 
             //await turnContext.SendActivityAsync(message);
             //await turnContext.SendActivityAsync(reply);
             await turnContext.SendActivityAsync(langMessage);
+            await turnContext.SendActivityAsync(langMessage1);
 
             var confirmOption = new PromptOptions
             {
@@ -314,9 +316,9 @@ namespace SmartBot.Dialogs
                 return await AzureLearningOptionAsyn(stepContext, cancellationToken);
             }
         }
-        private static string getLanguageResource(string url, string key, string question)
+        private LanguageReponse getLanguageResource(string url, string key, string question)
         {
-            string response = null;
+            LanguageReponse languageReponse = null;
             try
             {
                 LanguageRequest languageRequest = new LanguageRequest()
@@ -347,15 +349,15 @@ namespace SmartBot.Dialogs
 
                 Task<String> res = PostMethod(request);
 
-                LanguageReponse languageReponse = JsonConvert.DeserializeObject<LanguageReponse>(res.Result);
-                response = languageReponse.answers[0].answer + " source of the content - " + languageReponse.answers[0].source;
+                languageReponse = JsonConvert.DeserializeObject<LanguageReponse>(res.Result);
+                //response = languageReponse.answers[0].answer + " " + languageReponse.answers[0].source;
 
             }
             catch (Exception ex)
             {
                 throw;
             }
-            return response;
+            return languageReponse;
         }
 
         private static async Task<String> PostMethod(HttpRequestMessage request)
