@@ -38,11 +38,10 @@ namespace SmartBot.Dialogs
 
             AddDialog(new TextPrompt(nameof(TextPrompt)));
             AddDialog(new ChoicePrompt(nameof(ChoicePrompt)));
-            
+
             var waterfallSteps = new WaterfallStep[]
             {
                     ConfirmAzureLevelAsync,
-                    ConfirmLearningOptionsAsync,
                     AzureLearningOptionAsyn,
                     AzureTopicOptionAsyn,
                     FinalStepAsync
@@ -51,18 +50,19 @@ namespace SmartBot.Dialogs
             AddDialog(new WaterfallDialog(nameof(WaterfallDialog), waterfallSteps));
 
             // The initial child Dialog to run.
-            InitialDialogId = nameof(WaterfallDialog);
+            InitialDialogId = nameof(WaterfallDialog);            
         }
 
         private async Task<DialogTurnResult> ConfirmAzureLevelAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
+            azureContent.ExpertLevel = "";
             var azureList = new PromptOptions
             {
-                Choices=new List<Choice> { new Choice("Beginner"), new Choice("Intermediate") , new Choice("Expert") },
-                Prompt=MessageFactory.Text("What is your expertize level in azure techonology?")
+                Choices = new List<Choice> { new Choice("Beginner"), new Choice("Intermediate"), new Choice("Expert") },
+                Prompt = MessageFactory.Text("What is your expertise level in azure techonology?")
             };
 
-            return await stepContext.PromptAsync(nameof(ChoicePrompt),azureList, cancellationToken);
+            return await stepContext.PromptAsync(nameof(ChoicePrompt), azureList, cancellationToken);
         }
 
         private async Task<DialogTurnResult> ConfirmLearningOptionsAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
@@ -70,7 +70,7 @@ namespace SmartBot.Dialogs
             azureContent.ExpertLevel = stepContext.Context.Activity.Text;
             var azureLearnList = new PromptOptions
             {
-                Choices = new List<Choice> { new Choice("Read Up"), new Choice("Certification"), new Choice("Practice Test") },
+                Choices = new List<Choice> { new Choice("Read Up"), new Choice("Certification") },
                 Prompt = MessageFactory.Text("Which option would you like to go with?")
             };
 
@@ -79,30 +79,33 @@ namespace SmartBot.Dialogs
 
         private async Task<DialogTurnResult> AzureLearningOptionAsyn(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
-            azureContent.AzureChoice = stepContext.Context.Activity.Text;
-                      
-            var promptMessage= MessageFactory.Text(AzureQuestionText(azureContent.ExpertLevel));
+            if (azureContent.ExpertLevel == "")
+                azureContent.ExpertLevel = stepContext.Context.Activity.Text;
 
-           //return await stepContext.BeginDialogAsync(promptMessage, cancellationToken);
+            var promptMessage = MessageFactory.Text(AzureQuestionText(azureContent.ExpertLevel));
+
+            //return await stepContext.BeginDialogAsync(promptMessage, cancellationToken);
+
+            azureContent.DailogId = nameof(WaterfallDialog);
 
             return await stepContext.BeginDialogAsync(nameof(TextPrompt), new PromptOptions { Prompt = promptMessage }, cancellationToken);
         }
 
         private string AzureQuestionText(string ExpertLevel)
         {
-            string questionText = "";
-            switch (azureContent.AzureChoice)
+            string questionText = "What you want to learn for azure '" + ExpertLevel + "' level?";
+            /*switch (ExpertLevel)
             {
-                case "Read Up":
-                    questionText = "What you want to read for azure " + ExpertLevel + " level " + getCertDetails(ExpertLevel);
+                case "Beginner":
+                    questionText = "What you want to learn for azure" + ExpertLevel + " level " + getCertDetails(ExpertLevel);
                     break;
-                case "Certification":
+                case "Intermediate":
                     questionText = "Which certification you would like to do for azure " + ExpertLevel + " level " + getCertDetails(ExpertLevel);
                     break;
-                case "Practice Test":
+                case "Expert":
                     questionText = "Which azure certification practice test would you like to do for azure" + ExpertLevel + " level " + getCertDetails(ExpertLevel);
                     break;
-            }
+            }*/
             return questionText;
         }
 
@@ -118,7 +121,7 @@ namespace SmartBot.Dialogs
                     certDetails = "AZ-204 or AZ-500?";
                     break;
                 case "Expert":
-                    certDetails = "AZ-304 or AZ-400?";
+                    certDetails = "AZ-305 or AZ-400?";
                     break;
             }
             return certDetails;
@@ -138,7 +141,7 @@ namespace SmartBot.Dialogs
                 ContentType = "image/png",
                 ContentUrl = @"C:\Users\kiran\Downloads\azure1.jfif",
             };
-                                  
+
             //an Internet url attachment
             var urlAttachment = new Attachment
             {
@@ -152,31 +155,24 @@ namespace SmartBot.Dialogs
             switch (azureContent.ExpertLevel)
             {
                 case "Beginner":
-                    if(azureContent.AzureChoice=="Read Up")
-                    {
+                    string langUrl = "https://smartbot-qna.cognitiveservices.azure.com/language/:query-knowledgebases?projectName=smartbot-beginner&api-version=2021-10-01&deploymentName=production";
+                    string key = "339ce12228f34b1a840913e430bf8a91";
+                    langRes = getLanguageResource(langUrl, key, stepContext.Context.Activity.Text);
+
+                    /*if (azureContent.AzureChoice=="Read Up")
+                    { 
+                        string langUrl = "https://smartbot-qna.cognitiveservices.azure.com/language/:query-knowledgebases?projectName=smartbot-beginner&api-version=2021-10-01&deploymentName=production";
+                        string key = "339ce12228f34b1a840913e430bf8a91";
+                        langRes = getLanguageResource(langUrl, key, stepContext.Context.Activity.Text);
+
                         Beginner_read.ModelInput read_content = new Beginner_read.ModelInput()
                         {
                             Col0 = stepContext.Context.Activity.Text
                         };
-
-                        string langUrl = "https://smartbot-qna.cognitiveservices.azure.com/language/:query-knowledgebases?projectName=smartbot-project&api-version=2021-10-01&deploymentName=production";
-
-                        string key = "339ce12228f34b1a840913e430bf8a91";
-
                         var predictRead = Beginner_read.Predict(read_content);
                         predictdetails = predictRead.PredictedLabel;
-                        langRes = getLanguageResource(langUrl, key, stepContext.Context.Activity.Text);
-                    }
-                    else if(azureContent.AzureChoice == "Practice Test")
-                    {
-                        Beginner_test.ModelInput test_content = new Beginner_test.ModelInput()
-                        {
-                            Col0 = stepContext.Context.Activity.Text
-                        };
-
-                        var predictTest = Beginner_test.Predict(test_content);
-                        predictdetails = predictTest.PredictedLabel;
-                    }
+                        
+                    }                  
                     else if(azureContent.AzureChoice == "Certification")
                     {
                         Beginner_cert.ModelInput cert_content = new Beginner_cert.ModelInput()
@@ -186,11 +182,23 @@ namespace SmartBot.Dialogs
 
                         var predictCert = Beginner_cert.Predict(cert_content);
                         predictdetails = predictCert.PredictedLabel;
-                    }
+
+                        var predictRead = Beginner_cert.Predict(cert_content);
+                        predictdetails = predictRead.PredictedLabel;                        
+                    }*/
                     break;
-                case "Intermediate":              
-                    if (azureContent.AzureChoice == "Read Up")
+                case "Intermediate":
+
+                    string langUrl1 = "https://smartbot-qna.cognitiveservices.azure.com/language/:query-knowledgebases?projectName=smartbot-Intermediate&api-version=2021-10-01&deploymentName=test";
+                    string key1 = "339ce12228f34b1a840913e430bf8a91";
+                    langRes = getLanguageResource(langUrl1, key1, stepContext.Context.Activity.Text);
+
+                    /*if (azureContent.AzureChoice == "Read Up")
                     {
+                        string langUrl = "https://smartbot-qna.cognitiveservices.azure.com/language/:query-knowledgebases?projectName=smartbot-Intermediate&api-version=2021-10-01&deploymentName=test";
+                        string key = "339ce12228f34b1a840913e430bf8a91";
+                        langRes = getLanguageResource(langUrl, key, stepContext.Context.Activity.Text);
+
                         Intermediate_read.ModelInput read_content = new Intermediate_read.ModelInput()
                         {
                             Col0 = stepContext.Context.Activity.Text
@@ -198,77 +206,73 @@ namespace SmartBot.Dialogs
 
                         var predictRead = Intermediate_read.Predict(read_content);
                         predictdetails = predictRead.PredictedLabel;
-                    }
-                    else if (azureContent.AzureChoice == "Practice Test")
-                    {
-                        Intermediate_test.ModelInput test_content = new Intermediate_test.ModelInput()
-                        {
-                            Col0 = stepContext.Context.Activity.Text
-                        };
-
-                        var predictTest = Intermediate_test.Predict(test_content);
-                        predictdetails = predictTest.PredictedLabel;
-                    }
+                    }                    
                     else if (azureContent.AzureChoice == "Certification")
                     {
-                        Intermediate_cert.ModelInput cert_content = new Intermediate_cert.ModelInput()
+                        var expertCert = new PromptOptions
+                        {
+                            Choices = new List<Choice> { new Choice("AZ-305"), new Choice("AZ-400") },
+                            Prompt = MessageFactory.Text("Which Certification would you like to go with?")
+                        };
+
+                        return await stepContext.PromptAsync(nameof(ChoicePrompt), expertCert, cancellationToken);
+
+                        /*Intermediate_cert.ModelInput cert_content = new Intermediate_cert.ModelInput()
                         {
                             Col0 = stepContext.Context.Activity.Text
                         };
 
                         var predictCert = Intermediate_cert.Predict(cert_content);
-                        predictdetails = predictCert.PredictedLabel;
-                    }
-                    break;                    
-                case "Expert":                
-                    if (azureContent.AzureChoice == "Read Up")
-                    {
-                        Expert_read.ModelInput read_content = new Expert_read.ModelInput()
-                        {
-                            Col0 = stepContext.Context.Activity.Text
-                        };
+                        predictdetails = predictCert.PredictedLabel;*/
+                    //}*/
+                    break;
+                case "Expert":
+                    string langUrl2 = "https://smartbot-qna.cognitiveservices.azure.com/language/:query-knowledgebases?projectName=smartbot-expert&api-version=2021-10-01&deploymentName=test";
+                    string key2 = "339ce12228f34b1a840913e430bf8a91";
+                    langRes = getLanguageResource(langUrl2, key2, stepContext.Context.Activity.Text);
 
-                        var predictRead = Expert_read.Predict(read_content);
-                        predictdetails = predictRead.PredictedLabel;
-                    }
-                    else if (azureContent.AzureChoice == "Practice Test")
-                    {
-                        Expert_test.ModelInput test_content = new Expert_test.ModelInput()
-                        {
-                            Col0 = stepContext.Context.Activity.Text
-                        };
+                    /* if (azureContent.AzureChoice == "Read Up")
+                     {
+                         string langUrl = "https://smartbot-qna.cognitiveservices.azure.com/language/:query-knowledgebases?projectName=smartbot-expert&api-version=2021-10-01&deploymentName=test";
+                         string key = "339ce12228f34b1a840913e430bf8a91";
+                         langRes = getLanguageResource(langUrl, key, stepContext.Context.Activity.Text);
 
-                        var predictTest = Expert_test.Predict(test_content);
-                        predictdetails = predictTest.PredictedLabel;
-                    }
-                    else if (azureContent.AzureChoice == "Certification")
-                    {
-                        Expert_cert.ModelInput cert_content = new Expert_cert.ModelInput()
-                        {
-                            Col0 = stepContext.Context.Activity.Text
-                        };
+                         Expert_read.ModelInput read_content = new Expert_read.ModelInput()
+                         {
+                             Col0 = stepContext.Context.Activity.Text
+                         };
 
-                        var predictCert = Expert_cert.Predict(cert_content);
-                        predictdetails = predictCert.PredictedLabel;
-                    }
-                    break;                    
+                         var predictRead = Expert_read.Predict(read_content);
+                         predictdetails = predictRead.PredictedLabel;
+                     }                    
+                     else if (azureContent.AzureChoice == "Certification")
+                     {                        
+                         Expert_cert.ModelInput cert_content = new Expert_cert.ModelInput()
+                         {
+                             Col0 = stepContext.Context.Activity.Text
+                         };
+
+                         var predictCert = Expert_cert.Predict(cert_content);
+                         predictdetails = predictCert.PredictedLabel;
+                     }*/
+                    break;
             }
-                        
-            var message = MessageFactory.Text(predictdetails);
+
+            //var message = MessageFactory.Text(predictdetails);
             var langMessage = MessageFactory.Text(langRes);
-                        
-            await turnContext.SendActivityAsync(message);
-            await turnContext.SendActivityAsync(reply);
+
+            //await turnContext.SendActivityAsync(message);
+            //await turnContext.SendActivityAsync(reply);
             await turnContext.SendActivityAsync(langMessage);
 
             var confirmOption = new PromptOptions
             {
-                Choices = new List<Choice> { new Choice("Yes"), new Choice("No") },
-                Prompt = MessageFactory.Text("Do you want to continue to learn more?")
+                Choices = new List<Choice> {new Choice("Continue"), new Choice("Main Menu"), new Choice("Exit") }               
             };
 
-            return await stepContext.PromptAsync(nameof(ChoicePrompt), confirmOption, cancellationToken);            
+            return await stepContext.BeginDialogAsync(nameof(ChoicePrompt), confirmOption, cancellationToken);
         }
+
 
         private async Task<DialogTurnResult> FinalStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
@@ -276,19 +280,19 @@ namespace SmartBot.Dialogs
             var confirmOption = stepContext.Context.Activity.Text;
 
             var promptMessage = "Thank you for choosing SmartBot to learn azure!!";
-
-            if (confirmOption == "Yes")
+                       
+            if (confirmOption == "Main Menu")
             {
-                return await stepContext.ReplaceDialogAsync(InitialDialogId, promptMessage, cancellationToken);
+                return await stepContext.ReplaceDialogAsync(InitialDialogId, promptMessage, cancellationToken);             
             }
-            else
+            else if(confirmOption=="Exit")
             {
                 var message = MessageFactory.Text(promptMessage);
                 var turnContext = stepContext.Context;
                 var activity = turnContext.Activity;
                 var reply = activity.CreateReply();
                 reply.Text = "Thank You for choosing SmartBot to learn azure!!";
-                                
+
                 var imageJsonString = "{\"$schema\": \"http://adaptivecards.io/schemas/adaptive-card.json\",\"type\": \"AdaptiveCard\",\"version\": \"1.0\", \"body\":[{\"type\": \"Image\",\"width\": \"82px\",\"height\": \"100px\",\"url\": \"https://i.pinimg.com/736x/bf/31/a3/bf31a3f95b984510958a887f7e513020.jpg\",\"size\": \"stretch\"}]}";
 
                 var urlAttachment = new Attachment
@@ -302,9 +306,14 @@ namespace SmartBot.Dialogs
                 await turnContext.SendActivityAsync(reply);
 
                 return await stepContext.EndDialogAsync(promptMessage, cancellationToken);
-            }            
-        }
+            }
+            else
+            {
+                stepContext.ActiveDialog.State["stepIndex"] = (int)stepContext.ActiveDialog.State["stepIndex"] - 2;
 
+                return await AzureLearningOptionAsyn(stepContext, cancellationToken);
+            }
+        }
         private static string getLanguageResource(string url, string key, string question)
         {
             string response = null;
@@ -312,7 +321,7 @@ namespace SmartBot.Dialogs
             {
                 LanguageRequest languageRequest = new LanguageRequest()
                 {
-                    top = 1,
+                    top = 2,
                     answerSpanRequest = new answerSpanRequest
                     {
                         confidenceScoreThreshold = "0",

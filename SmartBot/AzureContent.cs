@@ -9,5 +9,7 @@ namespace SmartBot
     {
         public string ExpertLevel { get; set; }
         public string AzureChoice { get; set; }
+
+        public string DailogId { get; set; }
     }
 }

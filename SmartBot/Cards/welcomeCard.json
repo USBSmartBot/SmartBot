@@ -23,7 +23,7 @@
       "type": "TextBlock",
       "size": "default",
       "isSubtle": true,
-      "text": "Welcome to SmartBot Azure Service, click below links to expand your knowledge on Azure Technology.",
+      "text": "Welcome to SmartBot Azure Service, click below links to expand your azur knowledge.",
       "wrap": true,
       "maxLines": 3
     }
@@ -36,13 +36,13 @@
     },
     {
       "type": "Action.OpenUrl",
-      "title": "Azure Certification List",
-      "url": "https://blog.udemy.com/how-to-get-azure-certified"
+      "title": "Certification list",
+      "url": "https://learn.microsoft.com/en-us/certifications"
     },
     {
       "type": "Action.OpenUrl",
-      "title": "Learn how to get Certification",
-      "url": "https://learn.microsoft.com/en-us/certifications"
+      "title": "How to get certified",
+      "url": "https://blog.udemy.com/how-to-get-azure-certified"
     }
   ]
 }
