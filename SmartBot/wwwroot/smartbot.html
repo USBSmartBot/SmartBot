@@ -1,12 +1,92 @@
 ﻿<!DOCTYPE html>
-<html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartBot</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+
+        body {
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        .container {
+            line-height: 150%;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0px 0px 0px 50px;
+            background-color: #040f47;
+        }
+
+            .header h1 {
+                color: #FFFFFF;
+                font-size: 30px;
+                font-family: 'Veradana';
+            }
+
+        .left {
+            float: left;
+            width: 200px;
+            margin: 0;
+            padding: 1em;
+        }
+
+        .content {
+            margin-left: 190px;
+            border-left: 1px solid #d4d4d4;
+            padding: 1em;
+            overflow: hidden;
+        }
+
+        .footer {
+            padding: 10px 5px 0px 0px;
+            background-color: #2e3550;
+            color: white;
+            text-align: center;
+        }
+    </style>
+</head>
+
 <body>
-    <table width="80%" height="100%" align="center">
-        <tr>
-            <td width="40%"><h1>Azure SmartBot!!</h1></td>
-            <td width="60%">
-                <iframe src='https://webchat.botframework.com/embed/azure_smartbot?s=7G0Q3L_Zqjo.V3RdYcpwrw7o8TtVUHqHbmhBzlUGOKDTuSOaDqUMwxw' style='min-width: 450px; min-height: 700px;'></iframe>
-            </td>
-    </table>
+    <div class="container">
+        <header class="header">
+            <h1>Azure SmartBot</h1>
+        </header>
+        <aside class="left">
+            <img src="https://medias2.prestastore.com/835054-pbig/chat-bot-for-social-networking.jpg" style="width:200px;" />
+            <br><br>
+            <p>
+                Learn Azure Technology in a smart way.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - SmartBot
+            </p>
+            <hr><br>
+        </aside>
+        <main class="content">
+            <table border="0" width="100%">
+                <tr>
+                    <td align="left" valign="top">
+                        <h2>About SmartBot</h2>
+                        <p>I am a Smart Bot to help you learn azure teachnology and get certified.</p>
+                        <p>Search azure topics or certification details in bot and you will get quick response.</p>
+                    </td>
+                    <td align="right">
+                        <iframe src='https://webchat.botframework.com/embed/azure_smartbot?s=7G0Q3L_Zqjo.V3RdYcpwrw7o8TtVUHqHbmhBzlUGOKDTuSOaDqUMwxw' style='min-width: 450px; min-height: 600px;'></iframe>
+                    </td>
+                </tr>
+            </table>
+        </main>
+        <footer class="footer">&copy; Copyright SmartBot</footer>
+    </div>
 </body>
+
 </html>
