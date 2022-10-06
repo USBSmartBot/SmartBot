@@ -86,46 +86,58 @@ namespace SmartBot.Dialogs
         {
             LanguageReponse langRes = null;
             string defaultStr = "";
-            switch (azureContent.ExpertLevel)
-            {
-                case "Beginner":
-                    string langUrl = "https://smartbot-qna.cognitiveservices.azure.com/language/:query-knowledgebases?projectName=smartbot-beginner&api-version=2021-10-01&deploymentName=production";
-                    string key = "339ce12228f34b1a840913e430bf8a91";
-                    langRes = getLanguageResource(langUrl, key, stepContext.Context.Activity.Text);
-                    break;
-                case "Intermediate":
-
-                    string langUrl1 = "https://smartbot-qna.cognitiveservices.azure.com/language/:query-knowledgebases?projectName=smartbot-Intermediate&api-version=2021-10-01&deploymentName=test";
-                    string key1 = "339ce12228f34b1a840913e430bf8a91";
-                    langRes = getLanguageResource(langUrl1, key1, stepContext.Context.Activity.Text);
-                    break;
-                case "Expert":
-                    string langUrl2 = "https://smartbot-qna.cognitiveservices.azure.com/language/:query-knowledgebases?projectName=smartbot-expert&api-version=2021-10-01&deploymentName=test";
-                    string key2 = "339ce12228f34b1a840913e430bf8a91";
-                    langRes = getLanguageResource(langUrl2, key2, stepContext.Context.Activity.Text);
-                    break;
-                default:
-                    defaultStr = "Please try with proper keywords?";
-                    break;
-            }
-                        
             var turnContext = stepContext.Context;
             var activity = turnContext.Activity;
-
-            if (langRes!=null){
-                var langMessage = MessageFactory.Text(langRes.answers[0].answer);
-                await turnContext.SendActivityAsync(langMessage);
-
-                if (Uri.IsWellFormedUriString(langRes.answers[0].source, UriKind.Absolute))
+            try
+            {
+                switch (azureContent.ExpertLevel)
                 {
-                    var langMessage1 = MessageFactory.Text(langRes.answers[0].source);
-                    await turnContext.SendActivityAsync(langMessage1);
+                    case "Beginner":
+                        string langUrl = "https://smartbot-qna.cognitiveservices.azure.com/language/:query-knowledgebases?projectName=smartbot-beginner&api-version=2021-10-01&deploymentName=production";
+                        string key = "339ce12228f34b1a840913e430bf8a91";
+                        langRes = getLanguageResource(langUrl, key, stepContext.Context.Activity.Text);
+                        break;
+                    case "Intermediate":
+
+                        string langUrl1 = "https://smartbot-qna.cognitiveservices.azure.com/language/:query-knowledgebases?projectName=smartbot-Intermediate&api-version=2021-10-01&deploymentName=test";
+                        string key1 = "339ce12228f34b1a840913e430bf8a91";
+                        langRes = getLanguageResource(langUrl1, key1, stepContext.Context.Activity.Text);
+                        break;
+                    case "Expert":
+                        string langUrl2 = "https://smartbot-qna.cognitiveservices.azure.com/language/:query-knowledgebases?projectName=smartbot-expert&api-version=2021-10-01&deploymentName=test";
+                        string key2 = "339ce12228f34b1a840913e430bf8a91";
+                        langRes = getLanguageResource(langUrl2, key2, stepContext.Context.Activity.Text);
+                        break;
+                    default:
+                        defaultStr = "System Error. Please try again with new option?";
+                        var langMessage1 = MessageFactory.Text(defaultStr);
+                        await turnContext.SendActivityAsync(langMessage1);
+                        return await stepContext.ReplaceDialogAsync(InitialDialogId, defaultStr, cancellationToken);
+                }
+
+                if (langRes != null)
+                {
+                    var langMessage = MessageFactory.Text(langRes.answers[0].answer);
+                    await turnContext.SendActivityAsync(langMessage);
+
+                    if (Uri.IsWellFormedUriString(langRes.answers[0].source, UriKind.Absolute))
+                    {
+                        var langMessage1 = MessageFactory.Text(langRes.answers[0].source);
+                        await turnContext.SendActivityAsync(langMessage1);
+                    }
+                }
+                else
+                {
+                    var langMessage = MessageFactory.Text(defaultStr);
+                    await turnContext.SendActivityAsync(langMessage);
                 }
             }
-            else
+            catch(Exception)
             {
-                var langMessage = MessageFactory.Text(defaultStr);
-                await turnContext.SendActivityAsync(langMessage);
+                defaultStr = "System Error. Please try again with new option?";
+                var langMessage1 = MessageFactory.Text(defaultStr);
+                await turnContext.SendActivityAsync(langMessage1);
+                return await stepContext.ReplaceDialogAsync(InitialDialogId, defaultStr, cancellationToken);
             }
             var confirmOption = new PromptOptions
             {
