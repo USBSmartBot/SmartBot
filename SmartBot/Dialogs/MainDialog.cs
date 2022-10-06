@@ -105,15 +105,17 @@ namespace SmartBot.Dialogs
                     break;
             }
                         
-            var langMessage = MessageFactory.Text(langRes.answers[0].answer);
-            var langMessage1 = MessageFactory.Text(langRes.answers[0].source);
-
             var turnContext = stepContext.Context;
             var activity = turnContext.Activity;
 
+            var langMessage = MessageFactory.Text(langRes.answers[0].answer);
             await turnContext.SendActivityAsync(langMessage);
-            await turnContext.SendActivityAsync(langMessage1);
 
+            if (Uri.IsWellFormedUriString(langRes.answers[0].source,UriKind.Absolute))
+            {
+                var langMessage1 = MessageFactory.Text(langRes.answers[0].source);
+                await turnContext.SendActivityAsync(langMessage1);
+            }
             var confirmOption = new PromptOptions
             {
                 Choices = new List<Choice> { new Choice("Continue"), new Choice("Main Menu"), new Choice("Exit") }
