@@ -22,59 +22,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
-  <ItemGroup Label="Beginner_read">
-    <None Include="Beginner_read.consumption.cs">
-      <DependentUpon>Beginner_read.mbconfig</DependentUpon>
-    </None>
-    <None Include="Beginner_read.training.cs">
-      <DependentUpon>Beginner_read.mbconfig</DependentUpon>
-    </None>
-  </ItemGroup>
-  <ItemGroup Label="Beginner_cert">
-    <None Include="Beginner_cert.consumption.cs">
-      <DependentUpon>Beginner_cert.mbconfig</DependentUpon>
-    </None>
-    <None Include="Beginner_cert.training.cs">
-      <DependentUpon>Beginner_cert.mbconfig</DependentUpon>
-    </None>
-  </ItemGroup>
-  <ItemGroup Label="Beginner_test">
-    <None Include="Beginner_test.consumption.cs">
-      <DependentUpon>Beginner_test.mbconfig</DependentUpon>
-    </None>
-    <None Include="Beginner_test.training.cs">
-      <DependentUpon>Beginner_test.mbconfig</DependentUpon>
-    </None>
-  </ItemGroup>
-  <ItemGroup Label="Expert_test">
-    <None Include="Expert_test.consumption.cs">
-      <DependentUpon>Expert_test.mbconfig</DependentUpon>
-    </None>
-    <None Include="Expert_test.training.cs">
-      <DependentUpon>Expert_test.mbconfig</DependentUpon>
-    </None>
-  </ItemGroup>
-  <ItemGroup Label="Expert_read">
-    <None Include="Expert_read.consumption.cs">
-      <DependentUpon>Expert_read.mbconfig</DependentUpon>
-    </None>
-    <None Include="Expert_read.training.cs">
-      <DependentUpon>Expert_read.mbconfig</DependentUpon>
-    </None>
-  </ItemGroup>
-  <ItemGroup Label="Expert_cert">
-    <None Include="Expert_cert.consumption.cs">
-      <DependentUpon>Expert_cert.mbconfig</DependentUpon>
-    </None>
-    <None Include="Expert_cert.training.cs">
-      <DependentUpon>Expert_cert.mbconfig</DependentUpon>
-    </None>
-  </ItemGroup>
   <ItemGroup>
-    <None Update="Beginner_cert.zip">
-      <DependentUpon>Beginner_cert.mbconfig</DependentUpon>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Update="Beginner_read.zip">
       <DependentUpon>Beginner_read.mbconfig</DependentUpon>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

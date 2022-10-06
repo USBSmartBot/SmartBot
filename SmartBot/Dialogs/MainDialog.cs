@@ -19,6 +19,8 @@ using System.Net.Http.Json;
 using System;
 using System.Text;
 using Newtonsoft.Json.Serialization;
+using System.Linq;
+using System.IO;
 
 namespace SmartBot.Dialogs
 {
@@ -53,6 +55,8 @@ namespace SmartBot.Dialogs
             InitialDialogId = nameof(WaterfallDialog);            
         }
 
+        #region Waterfall Dailogs
+
         private async Task<DialogTurnResult> ConfirmAzureLevelAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
             azureContent.ExpertLevel = "";
@@ -61,20 +65,8 @@ namespace SmartBot.Dialogs
                 Choices = new List<Choice> { new Choice("Beginner"), new Choice("Intermediate"), new Choice("Expert") },
                 Prompt = MessageFactory.Text("What is your expertise level in azure techonology?")
             };
-
+            publishWelcomeMessage(stepContext);
             return await stepContext.PromptAsync(nameof(ChoicePrompt), azureList, cancellationToken);
-        }
-
-        private async Task<DialogTurnResult> ConfirmLearningOptionsAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
-        {
-            azureContent.ExpertLevel = stepContext.Context.Activity.Text;
-            var azureLearnList = new PromptOptions
-            {
-                Choices = new List<Choice> { new Choice("Read Up"), new Choice("Certification") },
-                Prompt = MessageFactory.Text("Which option would you like to go with?")
-            };
-
-            return await stepContext.PromptAsync(nameof(ChoicePrompt), azureLearnList, cancellationToken);
         }
 
         private async Task<DialogTurnResult> AzureLearningOptionAsyn(WaterfallStepContext stepContext, CancellationToken cancellationToken)
@@ -82,214 +74,67 @@ namespace SmartBot.Dialogs
             if (azureContent.ExpertLevel == "")
                 azureContent.ExpertLevel = stepContext.Context.Activity.Text;
 
-            var promptMessage = MessageFactory.Text(AzureQuestionText(azureContent.ExpertLevel));
-
-            //return await stepContext.BeginDialogAsync(promptMessage, cancellationToken);
+            var promptMessage = MessageFactory.Text("What you want to learn for azure '" + azureContent.ExpertLevel + "' level?");
 
             azureContent.DailogId = nameof(WaterfallDialog);
 
             return await stepContext.BeginDialogAsync(nameof(TextPrompt), new PromptOptions { Prompt = promptMessage }, cancellationToken);
         }
 
-        private string AzureQuestionText(string ExpertLevel)
-        {
-            string questionText = "What you want to learn for azure '" + ExpertLevel + "' level?";
-            /*switch (ExpertLevel)
-            {
-                case "Beginner":
-                    questionText = "What you want to learn for azure" + ExpertLevel + " level " + getCertDetails(ExpertLevel);
-                    break;
-                case "Intermediate":
-                    questionText = "Which certification you would like to do for azure " + ExpertLevel + " level " + getCertDetails(ExpertLevel);
-                    break;
-                case "Expert":
-                    questionText = "Which azure certification practice test would you like to do for azure" + ExpertLevel + " level " + getCertDetails(ExpertLevel);
-                    break;
-            }*/
-            return questionText;
-        }
-
-        private string getCertDetails(string expertLevel)
-        {
-            string certDetails = null;
-            switch (expertLevel)
-            {
-                case "Beginner":
-                    certDetails = "AZ-900 or AZ-104?";
-                    break;
-                case "Intermediate":
-                    certDetails = "AZ-204 or AZ-500?";
-                    break;
-                case "Expert":
-                    certDetails = "AZ-305 or AZ-400?";
-                    break;
-            }
-            return certDetails;
-        }
         private async Task<DialogTurnResult> AzureTopicOptionAsyn(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
-
-            var turnContext = stepContext.Context;
-            var activity = turnContext.Activity;
-            var reply = activity.CreateReply();
-            reply.Text = "sample images for azure certification.";
-            //string langRes = "";
-            //read from local
-            var att = new Attachment
-            {
-                Name = @"Resources\architecture-resize.png",
-                ContentType = "image/png",
-                ContentUrl = @"C:\Users\kiran\Downloads\azure1.jfif",
-            };
-
-            //an Internet url attachment
-            var urlAttachment = new Attachment
-            {
-                Name = @"Resources\architecture-resize.png",
-                ContentType = "image/png",
-                ContentUrl = "https://docs.microsoft.com/en-us/bot-framework/media/how-it-works/architecture-resize.png",
-            };
-            reply.Attachments = new List<Attachment>() { urlAttachment };
-
             LanguageReponse langRes = null;
             switch (azureContent.ExpertLevel)
             {
                 case "Beginner":
                     string langUrl = "https://smartbot-qna.cognitiveservices.azure.com/language/:query-knowledgebases?projectName=smartbot-beginner&api-version=2021-10-01&deploymentName=production";
                     string key = "339ce12228f34b1a840913e430bf8a91";
-                  langRes = getLanguageResource(langUrl, key, stepContext.Context.Activity.Text);
-
-                    /*if (azureContent.AzureChoice=="Read Up")
-                    { 
-                        string langUrl = "https://smartbot-qna.cognitiveservices.azure.com/language/:query-knowledgebases?projectName=smartbot-beginner&api-version=2021-10-01&deploymentName=production";
-                        string key = "339ce12228f34b1a840913e430bf8a91";
-                        langRes = getLanguageResource(langUrl, key, stepContext.Context.Activity.Text);
-
-                        Beginner_read.ModelInput read_content = new Beginner_read.ModelInput()
-                        {
-                            Col0 = stepContext.Context.Activity.Text
-                        };
-                        var predictRead = Beginner_read.Predict(read_content);
-                        predictdetails = predictRead.PredictedLabel;
-                        
-                    }                  
-                    else if(azureContent.AzureChoice == "Certification")
-                    {
-                        Beginner_cert.ModelInput cert_content = new Beginner_cert.ModelInput()
-                        {
-                            Col0 = stepContext.Context.Activity.Text
-                        };
-
-                        var predictCert = Beginner_cert.Predict(cert_content);
-                        predictdetails = predictCert.PredictedLabel;
-
-                        var predictRead = Beginner_cert.Predict(cert_content);
-                        predictdetails = predictRead.PredictedLabel;                        
-                    }*/
+                    langRes = getLanguageResource(langUrl, key, stepContext.Context.Activity.Text);
                     break;
                 case "Intermediate":
 
                     string langUrl1 = "https://smartbot-qna.cognitiveservices.azure.com/language/:query-knowledgebases?projectName=smartbot-Intermediate&api-version=2021-10-01&deploymentName=test";
                     string key1 = "339ce12228f34b1a840913e430bf8a91";
                     langRes = getLanguageResource(langUrl1, key1, stepContext.Context.Activity.Text);
-
-                    /*if (azureContent.AzureChoice == "Read Up")
-                    {
-                        string langUrl = "https://smartbot-qna.cognitiveservices.azure.com/language/:query-knowledgebases?projectName=smartbot-Intermediate&api-version=2021-10-01&deploymentName=test";
-                        string key = "339ce12228f34b1a840913e430bf8a91";
-                        langRes = getLanguageResource(langUrl, key, stepContext.Context.Activity.Text);
-
-                        Intermediate_read.ModelInput read_content = new Intermediate_read.ModelInput()
-                        {
-                            Col0 = stepContext.Context.Activity.Text
-                        };
-
-                        var predictRead = Intermediate_read.Predict(read_content);
-                        predictdetails = predictRead.PredictedLabel;
-                    }                    
-                    else if (azureContent.AzureChoice == "Certification")
-                    {
-                        var expertCert = new PromptOptions
-                        {
-                            Choices = new List<Choice> { new Choice("AZ-305"), new Choice("AZ-400") },
-                            Prompt = MessageFactory.Text("Which Certification would you like to go with?")
-                        };
-
-                        return await stepContext.PromptAsync(nameof(ChoicePrompt), expertCert, cancellationToken);
-
-                        /*Intermediate_cert.ModelInput cert_content = new Intermediate_cert.ModelInput()
-                        {
-                            Col0 = stepContext.Context.Activity.Text
-                        };
-
-                        var predictCert = Intermediate_cert.Predict(cert_content);
-                        predictdetails = predictCert.PredictedLabel;*/
-                    //}*/
                     break;
                 case "Expert":
                     string langUrl2 = "https://smartbot-qna.cognitiveservices.azure.com/language/:query-knowledgebases?projectName=smartbot-expert&api-version=2021-10-01&deploymentName=test";
                     string key2 = "339ce12228f34b1a840913e430bf8a91";
                     langRes = getLanguageResource(langUrl2, key2, stepContext.Context.Activity.Text);
-
-                    /* if (azureContent.AzureChoice == "Read Up")
-                     {
-                         string langUrl = "https://smartbot-qna.cognitiveservices.azure.com/language/:query-knowledgebases?projectName=smartbot-expert&api-version=2021-10-01&deploymentName=test";
-                         string key = "339ce12228f34b1a840913e430bf8a91";
-                         langRes = getLanguageResource(langUrl, key, stepContext.Context.Activity.Text);
-
-                         Expert_read.ModelInput read_content = new Expert_read.ModelInput()
-                         {
-                             Col0 = stepContext.Context.Activity.Text
-                         };
-
-                         var predictRead = Expert_read.Predict(read_content);
-                         predictdetails = predictRead.PredictedLabel;
-                     }                    
-                     else if (azureContent.AzureChoice == "Certification")
-                     {                        
-                         Expert_cert.ModelInput cert_content = new Expert_cert.ModelInput()
-                         {
-                             Col0 = stepContext.Context.Activity.Text
-                         };
-
-                         var predictCert = Expert_cert.Predict(cert_content);
-                         predictdetails = predictCert.PredictedLabel;
-                     }*/
                     break;
             }
-
-            //var message = MessageFactory.Text(predictdetails);
+                        
             var langMessage = MessageFactory.Text(langRes.answers[0].answer);
             var langMessage1 = MessageFactory.Text(langRes.answers[0].source);
 
-            //await turnContext.SendActivityAsync(message);
-            //await turnContext.SendActivityAsync(reply);
+            var turnContext = stepContext.Context;
+            var activity = turnContext.Activity;
+
             await turnContext.SendActivityAsync(langMessage);
             await turnContext.SendActivityAsync(langMessage1);
 
             var confirmOption = new PromptOptions
             {
-                Choices = new List<Choice> {new Choice("Continue"), new Choice("Main Menu"), new Choice("Exit") }               
+                Choices = new List<Choice> { new Choice("Continue"), new Choice("Main Menu"), new Choice("Exit") }
             };
 
             return await stepContext.BeginDialogAsync(nameof(ChoicePrompt), confirmOption, cancellationToken);
         }
 
-
         private async Task<DialogTurnResult> FinalStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
             //Restart the main dialog
             var confirmOption = stepContext.Context.Activity.Text;
-
-            var promptMessage = "Thank you for choosing SmartBot to learn azure!!";
-                       
+                      
             if (confirmOption == "Main Menu")
             {
-                return await stepContext.ReplaceDialogAsync(InitialDialogId, promptMessage, cancellationToken);             
+                var promptMessage = "Thank you for choosing SmartBot to learn azure!!";
+
+                return await stepContext.ReplaceDialogAsync(InitialDialogId, promptMessage, cancellationToken);
             }
-            else if(confirmOption=="Exit")
+            else if (confirmOption == "Exit")
             {
-                var message = MessageFactory.Text(promptMessage);
+                var message = MessageFactory.Text("");
                 var turnContext = stepContext.Context;
                 var activity = turnContext.Activity;
                 var reply = activity.CreateReply();
@@ -307,7 +152,7 @@ namespace SmartBot.Dialogs
 
                 await turnContext.SendActivityAsync(reply);
 
-                return await stepContext.EndDialogAsync(promptMessage, cancellationToken);
+                return await stepContext.EndDialogAsync(message, cancellationToken);
             }
             else
             {
@@ -316,6 +161,11 @@ namespace SmartBot.Dialogs
                 return await AzureLearningOptionAsyn(stepContext, cancellationToken);
             }
         }
+
+        #endregion
+
+        #region Language Resource Service
+
         private LanguageReponse getLanguageResource(string url, string key, string question)
         {
             LanguageReponse languageReponse = null;
@@ -350,8 +200,6 @@ namespace SmartBot.Dialogs
                 Task<String> res = PostMethod(request);
 
                 languageReponse = JsonConvert.DeserializeObject<LanguageReponse>(res.Result);
-                //response = languageReponse.answers[0].answer + " " + languageReponse.answers[0].source;
-
             }
             catch (Exception ex)
             {
@@ -359,7 +207,6 @@ namespace SmartBot.Dialogs
             }
             return languageReponse;
         }
-
         private static async Task<String> PostMethod(HttpRequestMessage request)
         {
             var requestHandler = new HttpClientHandler();
@@ -372,31 +219,37 @@ namespace SmartBot.Dialogs
             return resultContent;
         }
 
-        /*private static async Task<TOut> HttpPostCall<TIn, TOut>(string url, string key, HttpMethod httpMethod, TIn contentValue) where TOut : class
+        #endregion
+
+        #region Private Methods
+        private async void publishWelcomeMessage(WaterfallStepContext stepContext)
         {
-            string resultContent = string.Empty;
-            try
+            var turnContext = stepContext.Context;
+            var activity = turnContext.Activity;
+
+            var langMessage = MessageFactory.Attachment(CreateAdaptiveCardAttachment());
+
+            await turnContext.SendActivityAsync(langMessage);
+        }
+
+        private Attachment CreateAdaptiveCardAttachment()
+        {
+            var cardResourcePath = GetType().Assembly.GetManifestResourceNames().First(name => name.EndsWith("welcomeCard.json"));
+
+            using (var stream = GetType().Assembly.GetManifestResourceStream(cardResourcePath))
             {
-                var requestHandler = new HttpClientHandler();
-                HttpClient httpClient = new HttpClient(requestHandler);
-                var request = new HttpRequestMessage(HttpMethod.Post, url);
-                request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                request.Headers.Add("Ocp-Apim-Subscription-Key", key);
-
-                var jsonSettings = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore, ContractResolver = new CamelCasePropertyNamesContractResolver() };
-                request.Content = new StringContent(JsonConvert.SerializeObject(contentValue, jsonSettings), Encoding.UTF8, "application/json");
-
-                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
-                var result = await httpClient.SendAsync(request)
-                                             .ConfigureAwait(false);
-
-                resultContent = await result.Content.ReadAsStringAsync().ConfigureAwait(false);
+                using (var reader = new StreamReader(stream))
+                {
+                    var adaptiveCard = reader.ReadToEnd();
+                    return new Attachment()
+                    {
+                        ContentType = "application/vnd.microsoft.card.adaptive",
+                        Content = JsonConvert.DeserializeObject(adaptiveCard, new JsonSerializerSettings { MaxDepth = null }),
+                    };
+                }
             }
-            catch(Exception e)
-            {
-                throw;
-            }
-            return JsonConvert.DeserializeObject<TOut>(resultContent);
-        }*/
+        }
+
+        #endregion
     }
 }
