@@ -73,7 +73,7 @@ namespace SmartBot.Dialogs
         private async Task<DialogTurnResult> AzureLearningOptionAsyn(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
             if (azureContent.ExpertLevel == "")
-                azureContent.ExpertLevel = stepContext.Context.Activity.Text;
+               azureContent.ExpertLevel = stepContext.Context.Activity.Text;
 
             var promptMessage = MessageFactory.Text("What you want to learn for azure '" + azureContent.ExpertLevel + "' level?");
 
@@ -85,6 +85,7 @@ namespace SmartBot.Dialogs
         private async Task<DialogTurnResult> AzureTopicOptionAsyn(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
             LanguageReponse langRes = null;
+            string defaultStr = "";
             switch (azureContent.ExpertLevel)
             {
                 case "Beginner":
@@ -103,18 +104,28 @@ namespace SmartBot.Dialogs
                     string key2 = "339ce12228f34b1a840913e430bf8a91";
                     langRes = getLanguageResource(langUrl2, key2, stepContext.Context.Activity.Text);
                     break;
+                default:
+                    defaultStr = "Please try with proper keywords?";
+                    break;
             }
                         
             var turnContext = stepContext.Context;
             var activity = turnContext.Activity;
 
-            var langMessage = MessageFactory.Text(langRes.answers[0].answer);
-            await turnContext.SendActivityAsync(langMessage);
+            if (langRes!=null){
+                var langMessage = MessageFactory.Text(langRes.answers[0].answer);
+                await turnContext.SendActivityAsync(langMessage);
 
-            if (Uri.IsWellFormedUriString(langRes.answers[0].source,UriKind.Absolute))
+                if (Uri.IsWellFormedUriString(langRes.answers[0].source, UriKind.Absolute))
+                {
+                    var langMessage1 = MessageFactory.Text(langRes.answers[0].source);
+                    await turnContext.SendActivityAsync(langMessage1);
+                }
+            }
+            else
             {
-                var langMessage1 = MessageFactory.Text(langRes.answers[0].source);
-                await turnContext.SendActivityAsync(langMessage1);
+                var langMessage = MessageFactory.Text(defaultStr);
+                await turnContext.SendActivityAsync(langMessage);
             }
             var confirmOption = new PromptOptions
             {

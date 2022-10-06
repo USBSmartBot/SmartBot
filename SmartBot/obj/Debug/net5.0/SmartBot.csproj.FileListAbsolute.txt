@@ -162,3 +162,4 @@ C:\Kiran\SmartBot\SmartBot\obj\Debug\net5.0\SmartBot.dll
 C:\Kiran\SmartBot\SmartBot\obj\Debug\net5.0\ref\SmartBot.dll
 C:\Kiran\SmartBot\SmartBot\obj\Debug\net5.0\SmartBot.pdb
 C:\Kiran\SmartBot\SmartBot\obj\Debug\net5.0\SmartBot.genruntimeconfig.cache
+C:\Kiran\SmartBot\SmartBot\obj\Debug\net5.0\SmartBot.csproj.AssemblyReference.cache
