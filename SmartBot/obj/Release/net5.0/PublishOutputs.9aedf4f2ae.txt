@@ -3,12 +3,6 @@ C:\Kiran\SmartBot\SmartBot\obj\Release\net5.0\PubTmp\Out\wwwroot\default.htm
 C:\Kiran\SmartBot\SmartBot\obj\Release\net5.0\PubTmp\Out\wwwroot\smartbot.html
 C:\Kiran\SmartBot\SmartBot\obj\Release\net5.0\PubTmp\Out\appsettings.Development.json
 C:\Kiran\SmartBot\SmartBot\obj\Release\net5.0\PubTmp\Out\appsettings.json
-C:\Kiran\SmartBot\SmartBot\obj\Release\net5.0\PubTmp\Out\Beginner_cert.zip
-C:\Kiran\SmartBot\SmartBot\obj\Release\net5.0\PubTmp\Out\Beginner_read.zip
-C:\Kiran\SmartBot\SmartBot\obj\Release\net5.0\PubTmp\Out\Beginner_test.zip
-C:\Kiran\SmartBot\SmartBot\obj\Release\net5.0\PubTmp\Out\Expert_cert.zip
-C:\Kiran\SmartBot\SmartBot\obj\Release\net5.0\PubTmp\Out\Expert_read.zip
-C:\Kiran\SmartBot\SmartBot\obj\Release\net5.0\PubTmp\Out\Expert_test.zip
 C:\Kiran\SmartBot\SmartBot\obj\Release\net5.0\PubTmp\Out\SmartBot.dll
 C:\Kiran\SmartBot\SmartBot\obj\Release\net5.0\PubTmp\Out\SmartBot.deps.json
 C:\Kiran\SmartBot\SmartBot\obj\Release\net5.0\PubTmp\Out\SmartBot.runtimeconfig.json

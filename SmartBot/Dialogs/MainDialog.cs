@@ -65,7 +65,13 @@ namespace SmartBot.Dialogs
                 Choices = new List<Choice> { new Choice("Beginner"), new Choice("Intermediate"), new Choice("Expert") },
                 Prompt = MessageFactory.Text("What is your expertise level in azure techonology?")
             };
-            publishWelcomeMessage(stepContext);
+            
+            var turnContext = stepContext.Context;
+            var activity = turnContext.Activity;
+            var welcomeMsg = MessageFactory.Attachment(CreateAdaptiveCardAttachment());
+
+            await turnContext.SendActivityAsync(welcomeMsg);
+
             return await stepContext.PromptAsync(nameof(ChoicePrompt), azureList, cancellationToken);
         }
 
@@ -222,16 +228,6 @@ namespace SmartBot.Dialogs
         #endregion
 
         #region Private Methods
-        private async void publishWelcomeMessage(WaterfallStepContext stepContext)
-        {
-            var turnContext = stepContext.Context;
-            var activity = turnContext.Activity;
-
-            var langMessage = MessageFactory.Attachment(CreateAdaptiveCardAttachment());
-
-            await turnContext.SendActivityAsync(langMessage);
-        }
-
         private Attachment CreateAdaptiveCardAttachment()
         {
             var cardResourcePath = GetType().Assembly.GetManifestResourceNames().First(name => name.EndsWith("welcomeCard.json"));

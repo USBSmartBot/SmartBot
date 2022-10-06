@@ -182,12 +182,6 @@ C:\Kiran\SmartBot\SmartBot.Tests\bin\Debug\net5.0\SmartBot.deps.json
 C:\Kiran\SmartBot\SmartBot.Tests\bin\Debug\net5.0\SmartBot.runtimeconfig.json
 C:\Kiran\SmartBot\SmartBot.Tests\bin\Debug\net5.0\SmartBot.runtimeconfig.dev.json
 C:\Kiran\SmartBot\SmartBot.Tests\bin\Debug\net5.0\appsettings.Development.json
-C:\Kiran\SmartBot\SmartBot.Tests\bin\Debug\net5.0\Beginner_cert.zip
-C:\Kiran\SmartBot\SmartBot.Tests\bin\Debug\net5.0\Beginner_read.zip
-C:\Kiran\SmartBot\SmartBot.Tests\bin\Debug\net5.0\Beginner_test.zip
-C:\Kiran\SmartBot\SmartBot.Tests\bin\Debug\net5.0\Expert_cert.zip
-C:\Kiran\SmartBot\SmartBot.Tests\bin\Debug\net5.0\Expert_read.zip
-C:\Kiran\SmartBot\SmartBot.Tests\bin\Debug\net5.0\Expert_test.zip
 C:\Kiran\SmartBot\SmartBot.Tests\bin\Debug\net5.0\SmartBot.exe
 C:\Kiran\SmartBot\SmartBot.Tests\bin\Debug\net5.0\SmartBot.Tests.StaticWebAssets.xml
 C:\Kiran\SmartBot\SmartBot.Tests\bin\Debug\net5.0\xunit.runner.visualstudio.dotnetcore.testadapter.dll
